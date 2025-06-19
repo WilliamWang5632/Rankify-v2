@@ -6,7 +6,7 @@ import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
 import { Textarea } from "./components/ui/textarea";
 import { Alert, AlertDescription } from "./components/ui/alert";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { MdStar, MdStarHalf, MdStarBorder} from "react-icons/md";
 /** One rating entry */
 interface Rating {
   id: string;
@@ -331,15 +331,15 @@ const renderStars = (rating: number) => {
       <span className="flex items-center text-yellow-200 text-base">
         {/* full stars */}
         {Array.from({ length: fullStars }).map((_, i) => (
-          <FaStar key={`full-${i}`} />
+          <MdStar key={`full-${i}`} />
         ))}
 
         {/* single half star, if needed */}
-        {halfStar && <FaStarHalfAlt key="half" />}
+        {halfStar && <MdStarHalf key="half" />}
 
         {/* empty stars */}
         {Array.from({ length: emptyStars }).map((_, i) => (
-          <FaRegStar key={`empty-${i}`} />
+          <MdStarBorder key={`empty-${i}`} />
         ))}
       </span>
 
@@ -368,8 +368,8 @@ const renderStars = (rating: number) => {
 
         {/* Messages */}
         {error && (
-          <Alert className="mb-6 border-red-600 bg-red-900/20">
-            <AlertDescription className="text-red-400">{error}</AlertDescription>
+          <Alert className="mb-6 border-[#d62d2d]">
+            <AlertDescription className="text-[#d62d2d]">{error}</AlertDescription>
           </Alert>
         )}
         
@@ -414,7 +414,7 @@ const renderStars = (rating: number) => {
                         type="file"
                         accept="image/*"
                         onChange={handleImageUpload}
-                        className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-gray-700 file:text-white hover:file:bg-gray-600"
+                        className="block w-full text-sm text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-gray-700 file:text-white hover:file:bg-gray-600"
                       />
                       {form.picture && (
                         <div className="relative bg-gray-700 rounded-lg overflow-hidden w-full h-48">
@@ -431,7 +431,7 @@ const renderStars = (rating: number) => {
                                 fileInputRef.current.value = '';
                               }
                             }}
-                            className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                            className="absolute top-2 right-2 bg-[#d62d2d] hover:bg-[#d62d2d] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
                           >
                             ×
                           </button>
@@ -473,15 +473,15 @@ const renderStars = (rating: number) => {
                       value={form.review}
                       onChange={handleChange}
                       required
-                      className="min-h-[120px] bg-gray-700 border-gray-600 text-white placeholder-gray-400 resize-none"
+                      className="min-h-[18vh] bg-gray-700 border-gray-600 text-xs text-white placeholder-gray-400 resize-none"
                     />
                   </div>
                   
-                  <div className="flex gap-2 pt-4">
+                  <div className="flex gap-2 pt-2">
                     <Button 
                       onClick={handleSubmit}
                       disabled={loading}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                      className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
                     >
                       {loading ? "Saving..." : editing ? "Update Rating" : "Create Rating"}
                     </Button>
@@ -543,7 +543,7 @@ const renderStars = (rating: number) => {
             {/* Stats */}
             <div className="mb-3 grid grid-cols-1 md:grid-cols-5 gap-3">
               <Card className="text-center p-2 bg-gray-800 border-gray-700">
-                <div className="text-2xl font-bold text-blue-400">{stats.totalRatings}</div>
+                <div className="text-2xl font-bold text-indigo-400">{stats.totalRatings}</div>
                 <div className="text-sm text-gray-400">Total Ratings</div>
               </Card>
               <Card className="text-center p-2 bg-gray-800 border-gray-700">
@@ -575,7 +575,7 @@ const renderStars = (rating: number) => {
             {/* Loading State */}
             {loading && (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
                 <p className="text-gray-400">Loading...</p>
               </div>
             )}
@@ -637,7 +637,7 @@ const renderStars = (rating: number) => {
                         <Button 
                           size="sm" 
                           onClick={() => handleEdit(item)}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                          className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
                           disabled={loading}
                         >
                           Edit
@@ -645,7 +645,7 @@ const renderStars = (rating: number) => {
                         <Button
                           size="sm"
                           onClick={() => handleDelete(item.id)}
-                          className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                          className="flex-1 bg-[#d62d2d] hover:bg-[#a61e1e] text-white"
                           disabled={loading}
                         >
                           Delete
@@ -662,3 +662,5 @@ const renderStars = (rating: number) => {
     </div>
   );
 }
+
+
