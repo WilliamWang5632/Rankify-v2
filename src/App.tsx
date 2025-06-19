@@ -6,7 +6,7 @@ import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
 import { Textarea } from "./components/ui/textarea";
 import { Alert, AlertDescription } from "./components/ui/alert";
-
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 /** One rating entry */
 interface Rating {
   id: string;
@@ -319,27 +319,36 @@ export default function App() {
     }
   };
 
-  const renderStars = (rating: number) => {
-    const validRating = Math.max(0, Math.min(10, rating));
-    const scaledRating = (validRating / 10) * 5;
-    
-    const fullStars = Math.floor(scaledRating);
-    const halfStar = scaledRating % 1 >= 0.5;
-    const emptyStars = Math.max(0, 5 - fullStars - (halfStar ? 1 : 0));
-    
-    return (
-      <div className="flex items-center gap-1">
-        <span className="text-yellow-400 text-lg">
-          {"★".repeat(fullStars)}
-          {halfStar && "☆"}
-          {"☆".repeat(emptyStars)}
-        </span>
-        <span className="text-sm text-gray-400 ml-1">
-          {validRating.toFixed(1)}/10.0
-        </span>
-      </div>
-    );
-  };
+const renderStars = (rating: number) => {
+  const validRating  = Math.max(0, Math.min(10, rating));
+  const scaledRating = (validRating / 10) * 5;
+  const fullStars    = Math.floor(scaledRating);  
+  const halfStar     = scaledRating % 1 >= 0.5;
+  const emptyStars   = 5 - fullStars - (halfStar ? 1 : 0);
+
+  return (
+    <div className="flex items-center gap-1">
+      <span className="flex items-center text-yellow-200 text-base">
+        {/* full stars */}
+        {Array.from({ length: fullStars }).map((_, i) => (
+          <FaStar key={`full-${i}`} />
+        ))}
+
+        {/* single half star, if needed */}
+        {halfStar && <FaStarHalfAlt key="half" />}
+
+        {/* empty stars */}
+        {Array.from({ length: emptyStars }).map((_, i) => (
+          <FaRegStar key={`empty-${i}`} />
+        ))}
+      </span>
+
+      <span className="text-sm text-gray-400 ml-1">
+        {validRating.toFixed(1)}/10
+      </span>
+    </div>
+  );
+};
 
   const stats = getStats();
 
@@ -595,7 +604,7 @@ export default function App() {
             )}
 
             {/* Rating Cards Grid */}
-            <div className="grid sm:grid-cols-2 xl:grid-cols-8 gap-3">
+            <div className="grid sm:grid-cols-2 xl:grid-cols-6 gap-3">
               {filteredAndSortedItems.map((item) => (
                 <Card key={item.id} className="group hover:bg-gray-750 transition-colors duration-200 bg-gray-800 border-gray-700">
                   <CardContent className="p-0 flex flex-col h-full">
@@ -614,12 +623,12 @@ export default function App() {
                     </div>
 
                     <div className="p-4 flex flex-col flex-1">
-                      <h3 className="text-sm font-bold mb-2 text-white line-clamp-2">{item.name}</h3>
+                      <h3 className="text-sm font-bold mb-2 text-white line-clamp-2 h-10">{item.name}</h3>
                       
+                        
                       <div className="mb-3">
                         {renderStars(item.rating)}
                       </div>
-                      
                       {/* <p className="text-gray-400 text-xs flex-1 line-clamp-3 mb-4">
                         {item.review}
                       </p> */}
