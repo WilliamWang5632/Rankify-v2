@@ -1,21 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
-
-
-export interface Rating {
-  id: string;
-  name: string;
-  picture?: string;
-  rating: number; // 0–10 with decimals
-  review: string;
-  createdAt?: string;
-}
+import type { Rating } from "../interfaces/rating";
 
 const blank: Rating = {
     id: "",
     name: "",
     picture: "",
-    rating: 5,
+    rating: 0,
     review: "",
 };
 
