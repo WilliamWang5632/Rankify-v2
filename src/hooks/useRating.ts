@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import type { ChangeEvent } from "react";
 import type { Rating } from "../interfaces/rating";
 
@@ -10,20 +10,41 @@ const blank: Rating = {
     review: "",
 };
 
-export default function useRating(){
-    const API_URL = "http://localhost:8080/ratings";
+// Global state to persist data across tab switches
+let globalItemsByTab: Record<string, Rating[]> = {};
+let globalLoadingStates: Record<string, boolean> = {};
+
+export default function useRating(tabId: string) {
+  const API_URL = `http://localhost:8080/${tabId}`;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-
-
-  const [items, setItems] = useState<Rating[]>([]);
   const [form, setForm] = useState<Rating>(blank);
   const [editing, setEditing] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortBy, setSortBy] = useState<"name" | "name-desc" | "rating" | "rating-low" | "newest" | "oldest">("newest");
+  
+  // Force re-render when tab data changes
+  const [, forceUpdate] = useState({});
+  
+  // Initialize tab data if it doesn't exist
+  if (!globalItemsByTab[tabId]) {
+    globalItemsByTab[tabId] = [];
+  }
+  
+  const items = globalItemsByTab[tabId];
+  const loading = globalLoadingStates[tabId] || false;
+  
+  const setItems = useCallback((newItems: Rating[]) => {
+    globalItemsByTab[tabId] = newItems;
+    forceUpdate({}); // Force component re-render
+  }, [tabId]);
+
+  const setLoading = useCallback((loadingState: boolean) => {
+    globalLoadingStates[tabId] = loadingState;
+    forceUpdate({});
+  }, [tabId]);
 
   /* ------------------------------------------------------------------
      Utility functions
@@ -89,7 +110,7 @@ export default function useRating(){
   /* ------------------------------------------------------------------
      Data access helpers
   -------------------------------------------------------------------*/
-  const fetchAll = async () => {
+  const fetchAll = useCallback(async () => {
     try {
       setLoading(true);
       clearMessages();
@@ -108,7 +129,7 @@ export default function useRating(){
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_URL, setItems, setLoading]);
 
   const createRating = async (rating: Omit<Rating, 'id'>) => {
     const response = await fetch(API_URL, {
@@ -155,9 +176,13 @@ export default function useRating(){
     }
   };
 
+  // Fetch data when tab changes
   useEffect(() => {
-    void fetchAll();
-  }, []);
+    // Only fetch if we don't have data for this tab yet
+    if (!globalItemsByTab[tabId] || globalItemsByTab[tabId].length === 0) {
+      void fetchAll();
+    }
+  }, [tabId, fetchAll]);
 
   /* ------------------------------------------------------------------
      Filtering and sorting
@@ -257,18 +282,24 @@ export default function useRating(){
 
       if (editing) {
         await updateRating(form.id, form);
+        // Update the item in the local state
+        const updatedItems = items.map(item => 
+          item.id === form.id ? { ...form } : item
+        );
+        setItems(updatedItems);
         showSuccess("Rating updated successfully!");
       } else {
-        await createRating({
+        const newRating = await createRating({
           name: form.name,
           picture: form.picture,
           rating: form.rating,
           review: form.review
         });
+        // Add the new item to local state
+        setItems([...items, newRating]);
         showSuccess("Rating created successfully!");
       }
 
-      await fetchAll();
       setForm(blank);
       setEditing(false);
       if (fileInputRef.current) {
@@ -296,8 +327,12 @@ export default function useRating(){
     try {
       setLoading(true);
       await deleteRating(id);
+      
+      // Remove the item from local state
+      const updatedItems = items.filter(item => item.id !== id);
+      setItems(updatedItems);
+      
       showSuccess("Rating deleted successfully!");
-      await fetchAll();
     } catch (err) {
       showError("Failed to delete rating. Please try again.");
       console.error("Delete error:", err);
