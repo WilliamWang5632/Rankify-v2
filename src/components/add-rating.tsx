@@ -4,6 +4,7 @@ import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { renderStars } from "../components/stars";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import type { Rating } from "../interfaces/rating";
 
 export default function AddRating({
     loading,
@@ -19,7 +20,21 @@ export default function AddRating({
     clearMessages,
     isFormExpanded,
     setIsFormExpanded
-    }: any) {
+    }: {
+    loading: boolean,
+    editing: boolean,
+    form: Rating,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
+    fileInputRef: React.RefObject<HTMLInputElement | null>,
+    handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>,
+    setForm: React.Dispatch<React.SetStateAction<Rating>>,
+    handleSubmit: () => Promise<void>,
+    blank: Rating,
+    setEditing: React.Dispatch<React.SetStateAction<boolean>>,
+    clearMessages: () => void,
+    isFormExpanded: boolean,
+    setIsFormExpanded: React.Dispatch<React.SetStateAction<boolean>>
+    }) {
     
     return (
         <div className={`${isFormExpanded ? 'lg:col-span-2' : 'lg:col-span-1'}`}>

@@ -10,6 +10,14 @@ const blank: Rating = {
     review: "",
 };
 
+export interface Stats {
+  totalRatings: number;
+  meanRating: number;
+  medianRating: number;
+  highestRating: number;
+  lowestRating: number;
+}
+
 export default function useRating(){
     const API_URL = "http://localhost:5000/ratings"; // FIXED: Added /ratings to base URL
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -54,7 +62,7 @@ export default function useRating(){
   };
 
   // Calculate statistics
-  const getStats = () => {
+  const getStats = (): Stats => {
     if (items.length === 0) {
       return {
         totalRatings: 0,

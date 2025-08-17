@@ -1,4 +1,4 @@
-export default function Loading({loading}: any){
+export default function Loading({loading}: {loading: boolean}) {
     return(
         <>
             {loading && (

@@ -1,6 +1,7 @@
 import { Card } from "./ui/card"
+import type { Stats } from "../hooks/useRating"
 
-export default function Stats({stats}: any){
+export default function Stats({stats}: {stats: Stats}){
     return (
             <div className="mb-3 grid grid-cols-1 md:grid-cols-5 gap-3">
               <Card className="text-center p-2 bg-gray-800 border-gray-700">

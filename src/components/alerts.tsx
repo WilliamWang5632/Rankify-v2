@@ -1,6 +1,6 @@
 import { Alert, AlertDescription } from "./ui/alert"
 
-export default function AlertMessages({error, success}: any){
+export default function AlertMessages({error, success}: {error: string, success: string}) {
     return (
         <>
             {error && (

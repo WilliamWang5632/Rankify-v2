@@ -1,7 +1,11 @@
 import { Card, CardContent } from "./ui/card"
 import { Input } from "./ui/input"
 
-export default function SearchSort({searchTerm, setSearchTerm, sortBy, setSortBy}: any){
+export default function SearchSort({searchTerm, setSearchTerm, sortBy, setSortBy}: {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  sortBy: string;
+  setSortBy:React.Dispatch<React.SetStateAction<"name" | "newest" | "oldest" | "name-desc" | "rating" | "rating-low">>;}){
     return (
             <Card className="mb-3 bg-gray-800 border-gray-700">
               <CardContent className="p-2">
@@ -18,7 +22,7 @@ export default function SearchSort({searchTerm, setSearchTerm, sortBy, setSortBy
                     <span className="text-sm font-medium text-gray-300">Sort by:</span>
                     <select
                       value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+                      onChange={(e) => setSortBy(e.target.value as "name" | "newest" | "oldest" | "name-desc" | "rating" | "rating-low")}
                       className="px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
                     >
                       <option value="newest">Newest First</option>
