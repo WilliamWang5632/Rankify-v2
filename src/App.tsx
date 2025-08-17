@@ -31,7 +31,10 @@ const {
   blank,
   setEditing,
   clearMessages,
+  isFormExpanded,
+  setIsFormExpanded
 } = useRating()
+
 
   const stats = getStats();
 
@@ -44,10 +47,9 @@ const {
         {/* Messages */}
         <AlertMessages error={error} success={success}/>
 
-        {/* Main Layout: Form Left, List Right */}
-        <div className="grid lg:grid-cols-5 gap-6">
+ <div className="grid lg:grid-cols-5 gap-6">
           {/* Left Side - Form */}
-          <AddRating 
+          <AddRating
               loading={loading}
               editing={editing}
               form={form}
@@ -59,9 +61,11 @@ const {
               blank={blank}
               setEditing={setEditing}
               clearMessages={clearMessages}
+              isFormExpanded={isFormExpanded}
+              setIsFormExpanded={setIsFormExpanded}
             />
           {/* Right Side - List */}
-          <div className="lg:col-span-4">
+          <div className={`${isFormExpanded ? 'lg:col-span-3' : 'lg:col-span-4'} transition-all duration-300 ease-in-out`}>
 
             {/* Search and Sort Controls */}
             <SearchSort
@@ -91,6 +95,7 @@ const {
               handleEdit={handleEdit}
               loading={loading}
               handleDelete={handleDelete}
+              isFormExpanded={isFormExpanded}
             />
           </div>
         </div>

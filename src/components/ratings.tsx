@@ -3,9 +3,9 @@ import { renderStars } from "./stars";
 import { Button } from "./ui/button";
 import type { Rating } from "../interfaces/rating";
 
-export default function Ratings({filteredAndSortedItems, handleEdit, loading, handleDelete}: any){
+export default function Ratings({filteredAndSortedItems, handleEdit, loading, handleDelete, isFormExpanded}: any){
     return (
-            <div className="grid sm:grid-cols-2 xl:grid-cols-6 gap-3">
+            <div className={`${isFormExpanded ? 'xl:grid-cols-5' : 'xl:grid-cols-6'} grid sm:grid-cols-2 xl:grid-cols-6 gap-3`}>
               {filteredAndSortedItems.map((item: Rating) => (
                 <Card key={item.id} className="group hover:bg-gray-750 transition-colors duration-200 bg-gray-800 border-gray-700">
                   <CardContent className="p-0 flex flex-col h-full">

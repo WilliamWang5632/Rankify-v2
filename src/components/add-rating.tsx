@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { renderStars } from "../components/stars";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 export default function AddRating({
     loading,
@@ -15,17 +16,33 @@ export default function AddRating({
     handleSubmit,
     blank,
     setEditing,
-    clearMessages
+    clearMessages,
+    isFormExpanded,
+    setIsFormExpanded
     }: any) {
     
     return (
-        <div className="lg:col-span-1">
+        <div className={`${isFormExpanded ? 'lg:col-span-2' : 'lg:col-span-1'}`}>
             <Card className="bg-gray-800 border-gray-700 sticky top-6">
               <CardContent className="p-4">
-                <h2 className="text-xl font-bold mb-2 text-white">
-                  {editing ? "Edit Rating" : "Add New Rating"}
-                </h2>
-
+                <div className="flex justify-between">
+                  <h2 className="text-xl font-bold mb-2 text-white">
+                    {editing ? "Edit Rating" : "Add New Rating"}
+                  </h2>
+                  <div>
+                    <button
+                      onClick={() => setIsFormExpanded(!isFormExpanded)}
+                      className="border bg-gray-600 hover:bg-gray-700 rounded-full p-1 transition-colors duration-200"
+                      aria-label={isFormExpanded ? "Collapse form" : "Expand form"}
+                    >
+                      {isFormExpanded ? (
+                        <ChevronLeft className="h-6 w-6 font-bold text-white"/>
+                      ) : (
+                        <ChevronRight className="h-6 w-6 font-bold text-white"/>
+                      )}
+                    </button>
+                  </div>
+                </div>
                 <div className="space-y-2">
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">

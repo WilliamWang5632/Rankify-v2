@@ -24,6 +24,7 @@ export default function useRating(){
   const [success, setSuccess] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortBy, setSortBy] = useState<"name" | "name-desc" | "rating" | "rating-low" | "newest" | "oldest">("newest");
+  const [isFormExpanded, setIsFormExpanded] = useState(false);
 
   /* ------------------------------------------------------------------
      Utility functions
@@ -336,5 +337,7 @@ export default function useRating(){
     fileInputRef,
     blank,
     clearMessages,
+    isFormExpanded,
+    setIsFormExpanded
   };
 }
