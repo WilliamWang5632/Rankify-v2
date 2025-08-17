@@ -6,7 +6,7 @@ import Collection from "./components/collection";
 export default function App() {
   const {
     error,
-    success,
+    success,  
   } = useRating()
 
   return (
