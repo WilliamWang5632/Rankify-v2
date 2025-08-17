@@ -18,7 +18,7 @@ export default function Ratings({
 }) {
   return (
     <div
-      className={`${isFormExpanded ? "grid-cols-5" : "grid-cols-6"} grid gap-3`}
+      className={`${isFormExpanded ? "lg:grid-cols-5 md:grid-cols-4" : "lg:grid-cols-6 md:grid-cols-5"} grid gap-3`}
     >
       {filteredAndSortedItems.map((item: Rating) => (
         <Card
