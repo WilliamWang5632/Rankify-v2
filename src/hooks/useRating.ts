@@ -19,7 +19,7 @@ export interface Stats {
 }
 
 export default function useRating(){
-    const API_URL = "http://localhost:5000/ratings"; // FIXED: Added /ratings to base URL
+    const API_URL = import.meta.env.VITE_API_URL + "/ratings";
   const fileInputRef = useRef<HTMLInputElement>(null);
 
 
