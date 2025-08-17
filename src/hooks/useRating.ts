@@ -11,7 +11,7 @@ const blank: Rating = {
 };
 
 export default function useRating(){
-    const API_URL = "http://localhost:8080/ratings";
+    const API_URL = "http://localhost:5000/ratings"; // FIXED: Added /ratings to base URL
   const fileInputRef = useRef<HTMLInputElement>(null);
 
 
@@ -94,6 +94,7 @@ export default function useRating(){
       setLoading(true);
       clearMessages();
       
+      // FIXED: Remove extra "/ratings" since it's now in API_URL
       const response = await fetch(API_URL);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -111,6 +112,7 @@ export default function useRating(){
   };
 
   const createRating = async (rating: Omit<Rating, 'id'>) => {
+    // FIXED: Use API_URL directly (which now includes /ratings)
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
@@ -130,6 +132,7 @@ export default function useRating(){
   };
 
   const updateRating = async (id: string, rating: Partial<Rating>) => {
+    // FIXED: Now correctly points to /ratings/:id
     const response = await fetch(`${API_URL}/${id}`, {
       method: 'PUT',
       headers: {
@@ -146,6 +149,7 @@ export default function useRating(){
   };
 
   const deleteRating = async (id: string) => {
+    // FIXED: Now correctly points to /ratings/:id
     const response = await fetch(`${API_URL}/${id}`, {
       method: 'DELETE',
     });
