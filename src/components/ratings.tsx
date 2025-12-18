@@ -1,7 +1,7 @@
 import { Card, CardContent } from "./ui/card";
-import { renderStars } from "./stars";
 import { Button } from "./ui/button";
 import type { Rating } from "../interfaces/rating";
+import RatingProgressBar from "./progress-bar";
 
 export default function Ratings({
   filteredAndSortedItems,
@@ -47,10 +47,9 @@ export default function Ratings({
                 {item.name}
               </h3>
 
-              <div className="mb-3">{renderStars(item.rating)}</div>
-              {/* <p className="text-gray-400 text-xs flex-1 line-clamp-3 mb-4">
-                        {item.review}
-                      </p> */}
+              <div className="mb-3">
+                <RatingProgressBar rating={item.rating} />
+              </div>
 
               <div className="flex gap-2 mt-auto">
                 <Button
